@@ -6,3 +6,7 @@
 -pip install -r requirements.txt<br>
 - caso baixe algum biblioteca nova use: pip freeze > requirements.txt
 
+
+# Explicação
+- teste
+
