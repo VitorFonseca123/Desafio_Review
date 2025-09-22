@@ -3,6 +3,7 @@ import pandas as pd
 import re
 from nltk.corpus import stopwords
 from nltk.stem import WordNetLemmatizer
+from sklearn.dummy import DummyClassifier
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.model_selection import train_test_split
 import numpy as np
@@ -104,15 +105,24 @@ def main():
     coefficients = regressao.coef_[0]
     df_coefficients = pd.DataFrame({'word': feature_names, 'coefficient': coefficients})
 
+    dummy_model = DummyClassifier(strategy='most_frequent')
+    dummy_model.fit(X_train, y_train)
+    y_pred_dummy = dummy_model.predict(X_test)
+
+
+    # print("Desempenho do DummyClassifier")
+    # print("Acurácia:", accuracy_score(y_test, y_pred_dummy))
+    #print("\nRelatório de Classificação:\n", classification_report(y_test, y_pred_dummy))
+
     # Ordena as palavras pelo coeficiente de forma decrescente
     # Valores altos indicam palavras mais associadas a avaliações positivas, então elas serão
     # as primeiras, se colocarmos em ordem decrescente
     df_coefficients = df_coefficients.sort_values(by='coefficient', ascending=False)
 
-    print("--- Principais Palavras Positivas ---")
+    print("Principais Palavras Positivas")
     print(df_coefficients.head(20))
 
-    print("\n--- Principais Palavras Negativas ---")
+    print("\nPrincipais Palavras Negativas")
     # As palavras negativas são as de menor coeficiente (mais negativas)
     print(df_coefficients.tail(20))
 
